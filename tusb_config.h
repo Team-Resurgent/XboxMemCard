@@ -101,34 +101,8 @@
 // DEVICE CONFIGURATION
 //--------------------------------------------------------------------
 
-#ifdef USB_HOST
-
-// Size of buffer to hold descriptors and other data used for enumeration
-#define CFG_TUH_ENUMERATION_BUFSIZE 256
-
-#define CFG_TUH_HUB                 0
-#define CFG_TUH_CDC                 1
-#ifdef INPUT_USB_HID
-#define CFG_TUH_HID                 4 // typical keyboard + mouse device can have 3-4 HID interfaces
-#else
-#define CFG_TUH_HID                 0
-#endif
-#define CFG_TUH_MSC                 0
-#define CFG_TUH_VENDOR              0
-
-// max device support (excluding hub device)
-// 1 hub typically has 4 ports
-#define CFG_TUH_DEVICE_MAX          (CFG_TUH_HUB ? 4 : 1)
-
-//------------- HID -------------//
-
-#define CFG_TUH_HID_EP_BUFSIZE      64
-
-#else
-
 #ifndef CFG_TUD_ENDPOINT0_SIZE
-#define CFG_TUD_ENDPOINT0_SIZE    32
-#endif
+#define CFG_TUD_ENDPOINT0_SIZE    64
 
 //------------- CLASS -------------//
 #define CFG_TUD_CDC              0
