@@ -34,8 +34,6 @@ endif()
 
 project(FatFs_SPI C CXX ASM)
 
-add_compile_definitions(PICO_FLASH_SIZE_BYTES=16777216)
-
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
