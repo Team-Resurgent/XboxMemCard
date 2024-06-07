@@ -53,6 +53,7 @@ pico_enable_stdio_usb(XboxMemCard 0)
 target_sources(XboxMemCard PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/main.c
         ${CMAKE_CURRENT_LIST_DIR}/msc_disk.c
+        ${CMAKE_CURRENT_LIST_DIR}/sd_card_storage.c
         ${CMAKE_CURRENT_LIST_DIR}/flash_storage.c
         ${CMAKE_CURRENT_LIST_DIR}/usb_descriptors.c
         )

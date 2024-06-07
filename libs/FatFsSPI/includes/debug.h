@@ -19,25 +19,14 @@ specific language governing permissions and limitations under the License.
 extern "C" {
 #endif
 
-    void my_printf(const char *pcFormat, ...) __attribute__((format(__printf__, 1, 2)));
-
-    void my_assert_func(const char *file, int line, const char *func,
-                        const char *pred);
+    void debug_print(const char *pcFormat, ...) __attribute__((format(__printf__, 1, 2)));
 
 #ifdef __cplusplus
 }
 #endif
 
-
 #ifdef NDEBUG           /* required by ANSI standard */
 # define DBG_PRINTF(fmt, args...) {} /* Don't do anything in release builds*/
 #else
-# define DBG_PRINTF my_printf
-#endif
-
-#ifdef NDEBUG           /* required by ANSI standard */
-# define myASSERT(__e) ((void)0)
-#else
-# define myASSERT(__e) \
-    ((__e) ? (void)0 : my_assert_func(__FILE__, __LINE__, __func__, #__e))
+# define DBG_PRINTF debug_print
 #endif

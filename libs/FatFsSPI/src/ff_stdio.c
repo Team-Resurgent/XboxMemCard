@@ -130,7 +130,7 @@ int ff_stat(const char *pcFileName, FF_Stat_t *pxStatBuffer) {
     //  const TCHAR* path,  /* [IN] Object name */
     //  FILINFO* fno        /* [OUT] FILINFO structure */
     //);
-    myASSERT(pxStatBuffer);
+
     FILINFO filinfo;
     FRESULT fr = f_stat(pcFileName, &filinfo);
     pxStatBuffer->st_size = filinfo.fsize;
@@ -305,7 +305,6 @@ long ff_ftell(FF_FILE *pxStream) {
     //  FIL* fp   /* [IN] File object */
     //);
     FSIZE_t pos = f_tell(pxStream);
-    myASSERT(pos < LONG_MAX);
     return pos;
 }
 int ff_fseek(FF_FILE *pxStream, int iOffset, int iWhence) {
@@ -325,7 +324,7 @@ int ff_fseek(FF_FILE *pxStream, int iOffset, int iWhence) {
             fr = f_lseek(pxStream, iOffset);
             break;
         default:
-            myASSERT(!"Bad iWhence");
+            DBG_PRINTF("Bad iWhence.\r\n");
     }
     errno = fresult2errno(fr);
     if (FR_OK == fr)

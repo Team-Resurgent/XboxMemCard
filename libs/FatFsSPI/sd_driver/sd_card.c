@@ -163,6 +163,7 @@ specific language governing permissions and limitations under the License.
 #include <inttypes.h>
 #include <string.h>
 //
+#include "debug.h"
 #include "pico/mutex.h"
 //
 #include "hw_config.h"  // Hardware Configuration of the SPI and SD Card "objects"
@@ -365,11 +366,9 @@ static bool sd_wait_ready(sd_card_t *pSD, int timeout) {
 
 // An SD card can only do one thing at a time.
 static void sd_lock(sd_card_t *pSD) {
-    myASSERT(mutex_is_initialized(&pSD->mutex));
     mutex_enter_blocking(&pSD->mutex);
 }
 static void sd_unlock(sd_card_t *pSD) {
-    myASSERT(mutex_is_initialized(&pSD->mutex));
     mutex_exit(&pSD->mutex);
 }
 
@@ -747,7 +746,6 @@ static uint64_t sd_sectors_nolock(sd_card_t *pSD) {
 
         default:
             DBG_PRINTF("CSD struct unsupported\r\n");
-            myASSERT(!"CSD struct unsupported\r\n");
             return 0;
     };
     return blocks;
@@ -908,7 +906,10 @@ static uint8_t sd_write_block(sd_card_t *pSD, const uint8_t *buffer,
 
     // write the data
     bool ret = sd_spi_transfer(pSD, buffer, NULL, length);
-    myASSERT(ret);
+    if (!ret)
+    {
+        DBG_PRINTF("Fail: sd_write_block sd_spi_transfer.\r\n");
+    }
 
 #if SD_CRC_ENABLED
     if (crc_on) {

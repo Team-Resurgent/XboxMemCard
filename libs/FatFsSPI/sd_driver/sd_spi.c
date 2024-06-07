@@ -94,13 +94,13 @@ bool sd_spi_transfer(sd_card_t *pSD, const uint8_t *tx, uint8_t *rx,
 uint8_t sd_spi_write(sd_card_t *pSD, const uint8_t value) {
     // TRACE_PRINTF("%s\n", __FUNCTION__);
     uint8_t received = SPI_FILL_CHAR;
-#if 0
-    int num = spi_write_read_blocking(pSD->spi->hw_inst, &value, &received, 1);
-    myASSERT(1 == num);
-#else
+
     bool success = spi_transfer(pSD->spi, &value, &received, 1);
-    myASSERT(success);
-#endif
+    if (!success)
+    {
+        DBG_PRINTF("Fail: sd_spi_write spi_transfer.\r\n");
+    }
+
     return received;
 }
 

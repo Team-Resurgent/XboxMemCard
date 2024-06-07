@@ -15,7 +15,8 @@ specific language governing permissions and limitations under the License.
 #include <stdarg.h>
 #include "debug.h"
 
-void my_printf(const char *pcFormat, ...) {
+void debug_print(const char *pcFormat, ...)
+ {
     char pcBuffer[256] = {0};
     va_list xArgs;
     va_start(xArgs, pcFormat);
@@ -24,4 +25,3 @@ void my_printf(const char *pcFormat, ...) {
     printf("%s", pcBuffer);
     fflush(stdout);
 }
-

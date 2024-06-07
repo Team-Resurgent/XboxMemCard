@@ -6,6 +6,8 @@
 #include "tusb.h"
 
 #include "flash_storage.h"
+#include "sd_card_storage.h"
+
 #include <string.h>
 #include <stdlib.h>
 
@@ -37,6 +39,9 @@ int main(void)
   //flash_init();
 
   tusb_init();
+
+  sleep_ms(2000);
+  listFiles();
 
   while (true)
   {
