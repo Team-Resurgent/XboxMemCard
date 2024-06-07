@@ -32,14 +32,10 @@ if (PICO_SDK_VERSION_STRING VERSION_LESS "1.4.0")
   message(FATAL_ERROR "Raspberry Pi Pico SDK version 1.4.0 (or later) required. Your version is ${PICO_SDK_VERSION_STRING}")
 endif()
 
-project(FatFs_SPI C CXX ASM)
-
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
-# Add executable. Default name is the project name, version 0.1
-
-cmake_minimum_required(VERSION 3.13)
+project(FatFs_SPI C CXX ASM)
 
 add_library(FatFs_SPI INTERFACE)
 
@@ -59,11 +55,13 @@ target_sources(FatFs_SPI INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/src/my_debug.c
     ${CMAKE_CURRENT_LIST_DIR}/src/rtc.c
 )
+
 target_include_directories(FatFs_SPI INTERFACE
     ff15/source
     sd_driver
     includes
 )
+
 target_link_libraries(FatFs_SPI INTERFACE
         hardware_spi
         hardware_dma
