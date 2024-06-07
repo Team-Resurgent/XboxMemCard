@@ -4,8 +4,7 @@ target_sources(FatFsSPI INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/ff15/source/ffunicode.c
     ${CMAKE_CURRENT_LIST_DIR}/ff15/source/ff.c
     ${CMAKE_CURRENT_LIST_DIR}/sd_driver/sd_spi.c
-    ${CMAKE_CURRENT_LIST_DIR}/sd_driver/demo_logging.c
-#    ${CMAKE_CURRENT_LIST_DIR}/sd_driver/hw_config.c
+    ${CMAKE_CURRENT_LIST_DIR}/sd_driver/hw_config.c
     ${CMAKE_CURRENT_LIST_DIR}/sd_driver/spi.c
     ${CMAKE_CURRENT_LIST_DIR}/sd_driver/sd_card.c
     ${CMAKE_CURRENT_LIST_DIR}/sd_driver/crc.c
