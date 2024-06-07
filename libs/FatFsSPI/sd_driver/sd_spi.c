@@ -19,7 +19,7 @@ specific language governing permissions and limitations under the License.
 //
 #include "hardware/gpio.h"
 //
-#include "my_debug.h"
+#include "debug.h"
 #include "sd_card.h"
 #include "sd_spi.h"
 #include "spi.h"

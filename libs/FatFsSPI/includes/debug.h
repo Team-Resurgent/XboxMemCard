@@ -1,4 +1,4 @@
-/* my_debug.h
+/* debug.h
 Copyright 2021 Carl John Kugler III
 
 Licensed under the Apache License, Version 2.0 (the License); you may not use 

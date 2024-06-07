@@ -41,7 +41,7 @@ pico_sdk_init()
 
 add_executable(XboxMemCard)
 
-add_subdirectory(FatFs_SPI build)
+add_subdirectory(libs/FatFsSPI build)
 
 pico_set_program_name(XboxMemCard "XboxMemCard")
 pico_set_program_version(XboxMemCard "0.1")
@@ -63,11 +63,10 @@ target_include_directories(XboxMemCard PUBLIC
 
 # In addition to pico_stdlib required for common PicoSDK functionality, add dependency on tinyusb_device
 # for TinyUSB device support and tinyusb_board for the additional board support library used by the example
-target_link_libraries(XboxMemCard PUBLIC pico_stdlib pico_unique_id tinyusb_device tinyusb_board FatFs_SPI)
+target_link_libraries(XboxMemCard PUBLIC pico_stdlib pico_unique_id tinyusb_device tinyusb_board FatFsSPI)
 
 # Uncomment this line to enable fix for Errata RP2040-E5 (the fix requires use of GPIO 15)
 #target_compile_definitions(XboxMemCard PUBLIC PICO_RP2040_USB_DEVICE_ENUMERATION_FIX=1)
-
 
 pico_add_extra_outputs(XboxMemCard)
 

@@ -166,7 +166,7 @@ specific language governing permissions and limitations under the License.
 #include "pico/mutex.h"
 //
 #include "hw_config.h"  // Hardware Configuration of the SPI and SD Card "objects"
-#include "my_debug.h"
+#include "debug.h"
 #include "sd_spi.h"
 //
 #include "sd_card.h"
@@ -614,7 +614,7 @@ static int sd_cmd(sd_card_t *pSD, const cmdSupported cmd, uint32_t arg,
 /* Return non-zero if the SD-card is present. */
 bool sd_card_detect(sd_card_t *pSD) {
     TRACE_PRINTF("> %s\r\n", __FUNCTION__);
-    if (!pSD->use_card_detect) {
+    if (pSD->card_detect_gpio == -1) {
         pSD->m_Status &= ~STA_NODISK;
         return true;
     }
@@ -1149,7 +1149,7 @@ bool sd_init_driver() {
 
             sd_ctor(pSD);
 
-            if (pSD->use_card_detect) {
+            if (pSD->card_detect_gpio > -1) {
                 gpio_init(pSD->card_detect_gpio);
                 gpio_pull_up(pSD->card_detect_gpio);
                 gpio_set_dir(pSD->card_detect_gpio, GPIO_IN);

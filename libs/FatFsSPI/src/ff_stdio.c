@@ -19,7 +19,7 @@ specific language governing permissions and limitations under the License.
 #include <stdlib.h>
 #include <string.h>
 
-#include "my_debug.h"
+#include "debug.h"
 //
 #include "f_util.h"
 #include "ff_stdio.h"

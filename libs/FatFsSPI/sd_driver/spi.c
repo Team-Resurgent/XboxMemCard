@@ -19,7 +19,7 @@ specific language governing permissions and limitations under the License.
 #include "pico/mutex.h"
 #include "pico/sem.h"
 //
-#include "my_debug.h"
+#include "debug.h"
 #include "hw_config.h"
 //
 #include "spi.h"

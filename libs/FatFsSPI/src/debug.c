@@ -1,4 +1,4 @@
-/* my_debug.c
+/* debug.c
 Copyright 2021 Carl John Kugler III
 
 Licensed under the Apache License, Version 2.0 (the License); you may not use 
@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 */
 #include <stdio.h>
 #include <stdarg.h>
-#include "my_debug.h"
+#include "debug.h"
 
 void my_printf(const char *pcFormat, ...) {
     char pcBuffer[256] = {0};

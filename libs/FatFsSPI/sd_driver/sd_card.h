@@ -38,9 +38,8 @@ struct sd_card_t {
     spi_t *spi;
     // Slave select is here instead of in spi_t because multiple SDs can share an SPI.
     uint ss_gpio;                   // Slave select for this SD card
-    bool use_card_detect;
-    uint card_detect_gpio;    // Card detect; ignored if !use_card_detect
-    uint card_detected_true;  // Varies with card socket; ignored if !use_card_detect
+    uint card_detect_gpio;    // Card detect; ignored if -1
+    uint card_detected_true;  // Varies with card socket
     // Drive strength levels for GPIO outputs.
     // enum gpio_drive_strength { GPIO_DRIVE_STRENGTH_2MA = 0, GPIO_DRIVE_STRENGTH_4MA = 1, GPIO_DRIVE_STRENGTH_8MA = 2,
     // GPIO_DRIVE_STRENGTH_12MA = 3 }
@@ -61,7 +60,7 @@ struct sd_card_t {
     int (*read_blocks)(sd_card_t *sd_card_p, uint8_t *buffer, uint64_t ulSectorNumber,
                     uint32_t ulSectorCount);
 
-    // Useful when use_card_detect is false - call periodically to check for presence of SD card
+    // Useful when card_detect is disabled - call periodically to check for presence of SD card
     // Returns true if and only if SD card was sensed on the bus
     bool (*sd_test_com)(sd_card_t *sd_card_p);
 };
