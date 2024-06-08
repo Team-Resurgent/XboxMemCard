@@ -98,7 +98,7 @@ uint8_t sd_spi_write(sd_card_t *pSD, const uint8_t value) {
     bool success = spi_transfer(pSD->spi, &value, &received, 1);
     if (!success)
     {
-        DBG_PRINTF("Fail: sd_spi_write spi_transfer.\r\n");
+        DBG_PRINT("Fail: sd_spi_write spi_transfer.\r\n");
     }
 
     return received;

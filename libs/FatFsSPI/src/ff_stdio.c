@@ -324,7 +324,7 @@ int ff_fseek(FF_FILE *pxStream, int iOffset, int iWhence) {
             fr = f_lseek(pxStream, iOffset);
             break;
         default:
-            DBG_PRINTF("Bad iWhence.\r\n");
+            DBG_PRINT("Bad iWhence.\r\n");
     }
     errno = fresult2errno(fr);
     if (FR_OK == fr)

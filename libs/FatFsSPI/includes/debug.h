@@ -26,7 +26,7 @@ extern "C" {
 #endif
 
 #ifdef NDEBUG           /* required by ANSI standard */
-# define DBG_PRINTF(fmt, args...) {} /* Don't do anything in release builds*/
+# define DBG_PRINT(fmt, args...) {} /* Don't do anything in release builds*/
 #else
-# define DBG_PRINTF debug_print
+# define DBG_PRINT debug_print
 #endif

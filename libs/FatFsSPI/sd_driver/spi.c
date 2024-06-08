@@ -117,7 +117,7 @@ bool spi_transfer(spi_t *spi_p, const uint8_t *tx, uint8_t *rx, size_t length) {
         &spi_p->sem, timeOut);  // Wait for notification from ISR
     if (!rc) {
         // If the timeout is reached the function will return false
-        DBG_PRINTF("Notification wait timed out in %s\n", __FUNCTION__);
+        DBG_PRINT("Notification wait timed out in %s\n", __FUNCTION__);
         return false;
     }
     // Shouldn't be necessary:
