@@ -18,6 +18,8 @@ specific language governing permissions and limitations under the License.
 #include "pico/stdlib.h"
 #include "pico/mutex.h"
 #include "pico/sem.h"
+#include "pico/binary_info.h"
+#include "hardware/spi.h"
 //
 #include "debug.h"
 #include "hw_config.h"
@@ -164,6 +166,8 @@ bool my_spi_init(spi_t *spi_p) {
         gpio_set_function(spi_p->miso_gpio, GPIO_FUNC_SPI);
         gpio_set_function(spi_p->mosi_gpio, GPIO_FUNC_SPI);
         gpio_set_function(spi_p->sck_gpio, GPIO_FUNC_SPI);
+        bi_decl(bi_3pins_with_func(SPI_MISO_PIN, SPI_MOSI_PIN, SPI_SCK_PIN, GPIO_FUNC_SPI));
+
         // ss_gpio is initialized in sd_init_driver()
 
         // Slew rate limiting levels for GPIO outputs.
