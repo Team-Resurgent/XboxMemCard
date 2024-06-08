@@ -41,7 +41,12 @@ int main(void)
   tusb_init();
 
   sleep_ms(2000);
-  listFiles();
+
+  while (true)
+  {
+    listFiles();
+    sleep_ms(5000);
+  }
 
   while (true)
   {
