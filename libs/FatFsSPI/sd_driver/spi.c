@@ -168,6 +168,13 @@ bool my_spi_init(spi_t *spi_p) {
         gpio_set_function(spi_p->sck_gpio, GPIO_FUNC_SPI);
         bi_decl(bi_3pins_with_func(SPI_MISO_PIN, SPI_MOSI_PIN, SPI_SCK_PIN, GPIO_FUNC_SPI));
 
+
+    // gpio_set_function(SPI_TEST_RX, GPIO_FUNC_SPI);
+    // gpio_set_function(SPI_TEST_SCK, GPIO_FUNC_SPI);
+    // gpio_set_function(SPI_TEST_TX, GPIO_FUNC_SPI);
+    // gpio_set_function(SPI_TEST_CSN, GPIO_FUNC_SPI);
+    // bi_decl(bi_4pins_with_func((uint32_t)SPI_TEST_RX, (uint32_t)SPI_TEST_TX, (uint32_t)SPI_TEST_SCK, (uint32_t)SPI_TEST_CSN, GPIO_FUNC_SPI));
+
         // ss_gpio is initialized in sd_init_driver()
 
         // Slew rate limiting levels for GPIO outputs.

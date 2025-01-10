@@ -11,17 +11,14 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # == DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==
 if(WIN32)
-   set(USERHOME $ENV{USERPROFILE})
+    set(USERHOME $ENV{USERPROFILE})
 else()
     set(USERHOME $ENV{HOME})
 endif()
-set(PICO_SDK_PATH ${USERHOME}/.pico-sdk/sdk/1.5.1)
-set(PICO_TOOLCHAIN_PATH ${USERHOME}/.pico-sdk/toolchain/13_2_Rel1)
-if(WIN32)
-    set(pico-sdk-tools_DIR ${USERHOME}/.pico-sdk/tools/1.5.1)
-    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config.cmake)
-    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config-version.cmake)
-endif()
+set(sdkVersion 1.5.1)
+set(toolchainVersion 13_2_Rel1)
+set(picotoolVersion 2.0.0)
+include(${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
 # ====================================================================================
 set(PICO_BOARD pico CACHE STRING "Board type")
 
@@ -41,8 +38,6 @@ pico_sdk_init()
 
 add_executable(XboxMemCard)
 
-add_subdirectory(libs/FatFsSPI build)
-
 pico_set_program_name(XboxMemCard "XboxMemCard")
 pico_set_program_version(XboxMemCard "0.1")
 
@@ -50,27 +45,37 @@ pico_set_program_version(XboxMemCard "0.1")
 pico_enable_stdio_uart(XboxMemCard 1)
 pico_enable_stdio_usb(XboxMemCard 0)
 
-target_sources(XboxMemCard PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/main.c
-        ${CMAKE_CURRENT_LIST_DIR}/msc_disk.c
-        ${CMAKE_CURRENT_LIST_DIR}/sd_card_storage.c
-        ${CMAKE_CURRENT_LIST_DIR}/flash_storage.c
-        ${CMAKE_CURRENT_LIST_DIR}/usb_descriptors.c
-        )
+add_subdirectory(libs/FatFsSPI)
+add_subdirectory(libs/PIDisplayLib)
+
+target_sources(
+  XboxMemCard PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}/main.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/msc_disk.c
+  ${CMAKE_CURRENT_LIST_DIR}/sd_card_storage.c
+  ${CMAKE_CURRENT_LIST_DIR}/flash_storage.c
+  ${CMAKE_CURRENT_LIST_DIR}/usb_descriptors.c
+)
 
 # Make sure TinyUSB can find tusb_config.h
-target_include_directories(XboxMemCard PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR})
+target_include_directories(
+  XboxMemCard PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}
+)
+
 
 # In addition to pico_stdlib required for common PicoSDK functionality, add dependency on tinyusb_device
 # for TinyUSB device support and tinyusb_board for the additional board support library used by the example
 target_link_libraries(XboxMemCard PUBLIC 
   pico_stdlib 
   pico_unique_id 
+  pico_multicore
   tinyusb_device 
   tinyusb_board 
   hardware_spi 
+  hardware_i2c 
   FatFsSPI
+  PIDisplayLib
 )
 
 # Uncomment this line to enable fix for Errata RP2040-E5 (the fix requires use of GPIO 15)

@@ -26,6 +26,7 @@
 
 #include "tusb.h"
 #include "flash_storage.h"
+#include "sd_card_storage.h"
 
 // Some MCU doesn't have enough 8KB SRAM to store the whole disk
 
@@ -141,6 +142,7 @@ void tud_msc_capacity_cb(uint8_t lun, uint32_t* block_count, uint16_t* block_siz
   (void) lun;
 
   const uint32_t STORAGE_BLOCKS = flash_get_capcity() >> XMU_SECTOR_SHIFT;
+  //const uint32_t STORAGE_BLOCKS = sd_card_get_capcity() >> XMU_SECTOR_SHIFT;
 
   *block_count = STORAGE_BLOCKS;
   *block_size  = XMU_SECTOR_SIZE;
@@ -173,19 +175,16 @@ bool tud_msc_start_stop_cb(uint8_t lun, uint8_t power_condition, bool start, boo
 int32_t tud_msc_read10_cb(uint8_t lun, uint32_t lba, uint32_t offset, void* buffer, uint32_t bufsize)
 {
   const uint32_t STORAGE_BLOCKS = flash_get_capcity() >> XMU_SECTOR_SHIFT;
+  //const uint32_t STORAGE_BLOCKS = sd_card_get_capcity() >> XMU_SECTOR_SHIFT;
 
-  printf("BuffSize read: %i\n", bufsize);
-
-  // out of ramdisk
   if ( lba >= STORAGE_BLOCKS ) return -1;
-
-  (void) lun;
 
   uint32_t bytes_read = 0;
   uint8_t* buffer_pos = buffer + offset;
   while (bufsize > 0)
   {
     uint32_t byte_to_read = MIN(XMU_SECTOR_SIZE, bufsize);
+    //sd_card_read_sector(lba, buffer_pos, byte_to_read);
     flash_read_sector(lba, buffer_pos, byte_to_read);
     buffer_pos += XMU_SECTOR_SIZE;
     bufsize -= byte_to_read;
@@ -197,9 +196,6 @@ int32_t tud_msc_read10_cb(uint8_t lun, uint32_t lba, uint32_t offset, void* buff
 
 bool tud_msc_is_writable_cb (uint8_t lun)
 {
-  (void) lun;
-
-// readonly
   return true;
 }
 
@@ -207,9 +203,8 @@ bool tud_msc_is_writable_cb (uint8_t lun)
 // Process data in buffer to disk's storage and return number of written bytes
 int32_t tud_msc_write10_cb(uint8_t lun, uint32_t lba, uint32_t offset, uint8_t* buffer, uint32_t bufsize)
 {
-    printf("BuffSize write: %i\n", bufsize);
-
   const uint32_t STORAGE_BLOCKS = flash_get_capcity() >> XMU_SECTOR_SHIFT;
+  //const uint32_t STORAGE_BLOCKS = sd_card_get_capcity() >> XMU_SECTOR_SHIFT;
 
   // out of ramdisk
   if ( lba >= STORAGE_BLOCKS ) return -1;
@@ -219,6 +214,7 @@ int32_t tud_msc_write10_cb(uint8_t lun, uint32_t lba, uint32_t offset, uint8_t* 
   while (bufsize > 0)
   {
     uint32_t byte_to_write = MIN(XMU_SECTOR_SIZE, bufsize);
+    //sd_card_write_sector(lba, buffer_pos, byte_to_write);
     flash_write_sector(lba, buffer_pos, byte_to_write);
     buffer_pos += XMU_SECTOR_SIZE;
     bufsize -= byte_to_write;
@@ -229,45 +225,7 @@ int32_t tud_msc_write10_cb(uint8_t lun, uint32_t lba, uint32_t offset, uint8_t* 
   return bytes_writen;
 }
 
-// Callback invoked when received an SCSI command not in built-in list below
-// - READ_CAPACITY10, READ_FORMAT_CAPACITY, INQUIRY, MODE_SENSE6, REQUEST_SENSE
-// - READ10 and WRITE10 has their own callbacks
 int32_t tud_msc_scsi_cb (uint8_t lun, uint8_t const scsi_cmd[16], void* buffer, uint16_t bufsize)
 {
-  // read10 & write10 has their own callback and MUST not be handled here
-
-  // void const* response = NULL;
-  // int32_t resplen = 0;
-
-  // // most scsi handled is input
-  // bool in_xfer = true;
-
-  // switch (scsi_cmd[0])
-  // {
-  //   default:
-  //     // Set Sense = Invalid Command Operation
-  //     tud_msc_set_sense(lun, SCSI_SENSE_ILLEGAL_REQUEST, 0x20, 0x00);
-
-  //     // negative means error -> tinyusb could stall and/or response with failed status
-  //     resplen = -1;
-  //   break;
-  // }
-
-  // // return resplen must not larger than bufsize
-  // if ( resplen > bufsize ) resplen = bufsize;
-
-  // if ( response && (resplen > 0) )
-  // {
-  //   if(in_xfer)
-  //   {
-  //     memcpy(buffer, response, (size_t) resplen);
-  //   }else
-  //   {
-  //     // SCSI output
-  //   }
-  // }
-
-  // return resplen;
-
   return 0;
 }

@@ -3,10 +3,14 @@
 
 #include "bsp/board.h"
 #include "pico/stdlib.h"
+#include "pico/multicore.h"
 #include "tusb.h"
 
 #include "flash_storage.h"
 #include "sd_card_storage.h"
+#include "fonts.h"
+#include "displayDriver.h"
+#include "displaySSD1306.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -26,27 +30,39 @@ void led_blinking_task(void)
   gpio_put(PICO_DEFAULT_LED_PIN, !gpio_get_out_level(PICO_DEFAULT_LED_PIN));
 }
 
+void core1_entry() 
+{
+  printf("Hello core 1\n");
+
+  // displayDriver* display = (displayDriver*)new displaySSD1306();
+  // display->rotate(180);
+  // while (true)
+  // {
+  //   display->fill(0x000000);
+  //   display->drawString(0xffffff, fonts::Font_12x16(), 8, 0, "Hello");
+  //   display->drawString(0xffffff, fonts::Font_12x16(), 8, 16, "World");
+  //   display->drawDisplay();
+  //   sleep_ms(100);
+  // }
+}
 
 // flash_get_unique_id
 
 int main(void)
 {
+  stdio_init_all();
+ 
+  sleep_ms(2000);
+ 
+  //multicore_launch_core1(core1_entry);
+
   gpio_init(PICO_DEFAULT_LED_PIN);
   gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
 
-  stdio_init_all();
-
-  //flash_init();
+  flash_init();
+  //sd_card_init();
 
   tusb_init();
-
-  sleep_ms(2000);
-
-  while (true)
-  {
-    listFiles();
-    sleep_ms(5000);
-  }
 
   while (true)
   {

@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <hardware/sync.h>
 #include <hardware/flash.h>
+#include "storage.h"
 
 #define XMU_SECTORS_PER_FLASH_SECTOR 8
 
@@ -66,7 +67,7 @@ uint64_t flash_get_capcity()
     return capacity;
 }
 
-void flash_init()
+bool flash_init()
 {
 
 static uint8_t msc_disk0[DISK_BLOCK_NUM2][DISK_BLOCK_SIZE2] =
@@ -151,4 +152,10 @@ static uint8_t msc_disk0[DISK_BLOCK_NUM2][DISK_BLOCK_SIZE2] =
   {
        printf("Storage already prepped:\n");
   }
+
+  return true;
+}
+
+void flash_close()
+{
 }

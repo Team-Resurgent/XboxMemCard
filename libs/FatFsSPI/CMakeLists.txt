@@ -1,4 +1,5 @@
 add_library(FatFsSPI INTERFACE)
+
 target_sources(FatFsSPI INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/ff15/source/ffsystem.c
     ${CMAKE_CURRENT_LIST_DIR}/ff15/source/ffunicode.c
@@ -14,11 +15,13 @@ target_sources(FatFsSPI INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/src/debug.c
     ${CMAKE_CURRENT_LIST_DIR}/src/rtc.c
 )
+
 target_include_directories(FatFsSPI INTERFACE
     ff15/source
     sd_driver
     includes
 )
+
 target_link_libraries(FatFsSPI INTERFACE
         hardware_spi
         hardware_dma

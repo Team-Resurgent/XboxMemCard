@@ -20,7 +20,16 @@ enum
 #define FLASH_SECTOR_SHIFT 12
 #define FLASH_TARGET_OFFSET (256 * 1024)
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 bool flash_write_sector(uint64_t sector, uint8_t *data, uint32_t data_size);
 bool flash_read_sector(uint64_t sector, uint8_t *data, uint32_t data_size);
 uint64_t flash_get_capcity();
-void flash_init();
+bool flash_init();
+void flash_close();
+
+#ifdef __cplusplus
+}
+#endif
