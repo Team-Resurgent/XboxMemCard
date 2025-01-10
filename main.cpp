@@ -9,8 +9,7 @@
 #include "flash_storage.h"
 #include "sd_card_storage.h"
 #include "fonts.h"
-#include "displayDriver.h"
-#include "displaySSD1306.h"
+#include "pixelDisplaySSD1306.h"
 
 #include <string.h>
 #include <stdlib.h>
