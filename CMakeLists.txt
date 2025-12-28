@@ -20,10 +20,7 @@ set(toolchainVersion 13_2_Rel1)
 set(picotoolVersion 2.0.0)
 include(${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
 # ====================================================================================
-#set(PICO_BOARD pico2 CACHE STRING "Board type")
-
-#set(PICO_BOARD_HEADER_DIRS ${CMAKE_SOURCE_DIR})
-set(PICO_BOARD pimoroni_pga2350 CACHE STRING "Board type")
+set(PICO_BOARD pico CACHE STRING "Board type")
 
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
