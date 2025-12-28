@@ -13,7 +13,6 @@ target_sources(FatFsSPI INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/src/f_util.c
     ${CMAKE_CURRENT_LIST_DIR}/src/ff_stdio.c
     ${CMAKE_CURRENT_LIST_DIR}/src/debug.c
-    ${CMAKE_CURRENT_LIST_DIR}/src/rtc.c
 )
 
 target_include_directories(FatFsSPI INTERFACE
