@@ -10,7 +10,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        include:
+          - project_name: XboxMemCard-rp2040
+            pico_board: pico
+          - project_name: XboxMemCard-rp2350
+            pico_board: pico2
+         
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,6 +41,8 @@ jobs:
           source-dir: .
           options: |
             PICO_SDK_PATH=${{ github.workspace }}/pico-sdk
+            PROJECT_NAME=${{ matrix.project_name }}
+            PICO_BOARD=${{ matrix.pico_board }}
 
       - name: List Files
         run: ls -lh build/**
