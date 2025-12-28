@@ -24,6 +24,7 @@ if (EXISTS ${picoVscode})
 endif()
 # ====================================================================================
 set(PICO_BOARD pico CACHE STRING "Board type")
+set(PROJECT_NAME "XboxMemCard" CACHE STRING "Project name")
 
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
@@ -32,27 +33,24 @@ if (PICO_SDK_VERSION_STRING VERSION_LESS "1.4.0")
   message(FATAL_ERROR "Raspberry Pi Pico SDK version 1.4.0 (or later) required. Your version is ${PICO_SDK_VERSION_STRING}")
 endif()
 
-project(XboxMemCard C CXX ASM)
+project(${PROJECT_NAME} C CXX ASM)
 
 add_compile_definitions(PICO_FLASH_SIZE_BYTES=16777216)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
-add_executable(XboxMemCard)
-
-pico_set_program_name(XboxMemCard "XboxMemCard")
-pico_set_program_version(XboxMemCard "0.1")
+add_executable(${PROJECT_NAME})
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(XboxMemCard 1)
-pico_enable_stdio_usb(XboxMemCard 0)
+pico_enable_stdio_uart(${PROJECT_NAME} 1)
+pico_enable_stdio_usb(${PROJECT_NAME} 0)
 
 add_subdirectory(libs/FatFsSPI)
 add_subdirectory(libs/PIDisplayLib)
 
 target_sources(
-  XboxMemCard PUBLIC
+  ${PROJECT_NAME} PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}/main.cpp
   ${CMAKE_CURRENT_LIST_DIR}/msc_disk.c
   ${CMAKE_CURRENT_LIST_DIR}/sd_card_storage.c
@@ -62,14 +60,14 @@ target_sources(
 
 # Make sure TinyUSB can find tusb_config.h
 target_include_directories(
-  XboxMemCard PUBLIC
+  ${PROJECT_NAME} PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}
 )
 
 
 # In addition to pico_stdlib required for common PicoSDK functionality, add dependency on tinyusb_device
 # for TinyUSB device support and tinyusb_board for the additional board support library used by the example
-target_link_libraries(XboxMemCard PUBLIC 
+target_link_libraries(${PROJECT_NAME} PUBLIC 
   pico_stdlib 
   pico_unique_id 
   pico_multicore
@@ -82,8 +80,8 @@ target_link_libraries(XboxMemCard PUBLIC
 )
 
 # Uncomment this line to enable fix for Errata RP2040-E5 (the fix requires use of GPIO 15)
-#target_compile_definitions(XboxMemCard PUBLIC PICO_RP2040_USB_DEVICE_ENUMERATION_FIX=1)
+#target_compile_definitions(${PROJECT_NAME} PUBLIC PICO_RP2040_USB_DEVICE_ENUMERATION_FIX=1)
 
-pico_add_extra_outputs(XboxMemCard)
+pico_add_extra_outputs(${PROJECT_NAME})
 
 # add url via pico_set_program_url
