@@ -4,7 +4,6 @@ target_sources(PIDisplayLib INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/src/fonts.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/color.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/deviceLegacy.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/deviceRTC.cpp 
     ${CMAKE_CURRENT_LIST_DIR}/src/deviceEEPROM.cpp 
     ${CMAKE_CURRENT_LIST_DIR}/src/deviceTouch.cpp 
     ${CMAKE_CURRENT_LIST_DIR}/src/displayBase.cpp 
