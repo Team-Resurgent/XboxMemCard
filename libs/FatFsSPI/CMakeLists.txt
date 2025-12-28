@@ -24,6 +24,5 @@ target_include_directories(FatFsSPI INTERFACE
 target_link_libraries(FatFsSPI INTERFACE
         hardware_spi
         hardware_dma
-        hardware_rtc
         pico_stdlib
 )
