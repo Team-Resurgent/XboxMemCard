@@ -199,11 +199,11 @@ bool flash_init()
     sector[23] = 0;
     sector[24] = ' ';
     sector[25] = 0;
-    sector[26] = 'N';
+    sector[26] = 'M';
     sector[27] = 0;
     sector[28] = 'E';
     sector[29] = 0;
-    sector[30] = 'N';
+    sector[30] = 'M';
     sector[31] = 0;
     sector[32] = ' ';
     sector[33] = 0;
