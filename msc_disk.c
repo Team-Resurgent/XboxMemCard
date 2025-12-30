@@ -141,8 +141,13 @@ void tud_msc_capacity_cb(uint8_t lun, uint32_t* block_count, uint16_t* block_siz
 {
   (void) lun;
 
+#if CONFIG_TYPE == 1 || CONFIG_TYPE == 2
   const uint32_t STORAGE_BLOCKS = flash_get_capcity() >> XMU_SECTOR_SHIFT;
-  //const uint32_t STORAGE_BLOCKS = sd_card_get_capcity() >> XMU_SECTOR_SHIFT;
+#elif CONFIG_TYPE == 3
+  const uint32_t STORAGE_BLOCKS = sd_card_get_capcity() >> XMU_SECTOR_SHIFT;
+#endif
+
+  sleep_ms(2000);
 
   *block_count = STORAGE_BLOCKS;
   *block_size  = XMU_SECTOR_SIZE;
@@ -174,8 +179,11 @@ bool tud_msc_start_stop_cb(uint8_t lun, uint8_t power_condition, bool start, boo
 // Copy disk's data to buffer (up to bufsize) and return number of copied bytes.
 int32_t tud_msc_read10_cb(uint8_t lun, uint32_t lba, uint32_t offset, void* buffer, uint32_t bufsize)
 {
+#if CONFIG_TYPE == 1 || CONFIG_TYPE == 2
   const uint32_t STORAGE_BLOCKS = flash_get_capcity() >> XMU_SECTOR_SHIFT;
-  //const uint32_t STORAGE_BLOCKS = sd_card_get_capcity() >> XMU_SECTOR_SHIFT;
+#elif CONFIG_TYPE == 3
+  const uint32_t STORAGE_BLOCKS = sd_card_get_capcity() >> XMU_SECTOR_SHIFT;
+#endif
 
   if ( lba >= STORAGE_BLOCKS ) return -1;
 
@@ -203,8 +211,11 @@ bool tud_msc_is_writable_cb (uint8_t lun)
 // Process data in buffer to disk's storage and return number of written bytes
 int32_t tud_msc_write10_cb(uint8_t lun, uint32_t lba, uint32_t offset, uint8_t* buffer, uint32_t bufsize)
 {
+#if CONFIG_TYPE == 1 || CONFIG_TYPE == 2
   const uint32_t STORAGE_BLOCKS = flash_get_capcity() >> XMU_SECTOR_SHIFT;
-  //const uint32_t STORAGE_BLOCKS = sd_card_get_capcity() >> XMU_SECTOR_SHIFT;
+#elif CONFIG_TYPE == 3
+  const uint32_t STORAGE_BLOCKS = sd_card_get_capcity() >> XMU_SECTOR_SHIFT;
+#endif
 
   // out of ramdisk
   if ( lba >= STORAGE_BLOCKS ) return -1;

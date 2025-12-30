@@ -45,21 +45,20 @@ void core1_entry()
   // }
 }
 
-// flash_get_unique_id
-
 int main(void)
 {
   stdio_init_all();
- 
-  //sleep_ms(2000);
- 
+
   //multicore_launch_core1(core1_entry);
 
   gpio_init(PICO_DEFAULT_LED_PIN);
   gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
 
+#if CONFIG_TYPE == 1 || CONFIG_TYPE == 2
   flash_init();
-  //sd_card_init();
+#elif CONFIG_TYPE == 3
+  sd_card_init();
+#endif 
 
   tusb_init();
 
@@ -71,5 +70,3 @@ int main(void)
 
   return 0;
 }
-
-// https://github.com/Ryzee119/ogx360_t4/blob/be37b41775778137f6e1918245771dc31b6afea9/src/xmu.cpp

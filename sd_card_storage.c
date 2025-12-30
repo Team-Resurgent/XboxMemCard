@@ -58,7 +58,7 @@ bool sd_card_init()
         return false;
     }
 
-    result = f_open(&sd_card_mounted_file, "0:\\XboxMu.iso", FA_OPEN_EXISTING | FA_READ | FA_WRITE);
+    result = f_open(&sd_card_mounted_file, "0:\\Image.bin", FA_OPEN_EXISTING | FA_READ | FA_WRITE);
     if (result != FR_OK)
     {
         f_unmount(sd_card->pcName);
