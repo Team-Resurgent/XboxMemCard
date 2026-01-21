@@ -21,7 +21,7 @@ static const tusb_desc_device_t XID_DESC_DEVICE =
     .bMaxPacketSize0 = CFG_TUD_ENDPOINT0_SIZE,
 
     .idVendor = 0x045E,
-    .idProduct = 0x0289,
+    .idProduct = 0x0280,
     .bcdDevice = 0x0121,
 
     .iManufacturer = 0x00,
