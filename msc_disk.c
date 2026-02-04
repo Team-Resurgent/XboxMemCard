@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2019 Ha Thach (tinyusb.org)
@@ -122,9 +122,9 @@ void tud_msc_inquiry_cb(uint8_t lun, uint8_t vendor_id[8], uint8_t product_id[16
   const char pid[] = "Mass Storage";
   const char rev[] = "1.0";
 
-  memcpy(vendor_id  , vid, strlen(vid));
-  memcpy(product_id , pid, strlen(pid));
-  memcpy(product_rev, rev, strlen(rev));
+  snprintf((char*)vendor_id, 8, "%s", vid);
+  snprintf((char*)product_id, 16, "%s", pid);
+  snprintf((char*)product_rev, 4, "%s", rev);
 }
 
 // Invoked when received Test Unit Ready command.
