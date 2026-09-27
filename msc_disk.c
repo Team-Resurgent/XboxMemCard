@@ -147,8 +147,6 @@ void tud_msc_capacity_cb(uint8_t lun, uint32_t* block_count, uint16_t* block_siz
   const uint32_t STORAGE_BLOCKS = sd_card_get_capcity() >> XMU_SECTOR_SHIFT;
 #endif
 
-  sleep_ms(2000);
-
   *block_count = STORAGE_BLOCKS;
   *block_size  = XMU_SECTOR_SIZE;
 }
@@ -192,8 +190,11 @@ int32_t tud_msc_read10_cb(uint8_t lun, uint32_t lba, uint32_t offset, void* buff
   while (bufsize > 0)
   {
     uint32_t byte_to_read = MIN(XMU_SECTOR_SIZE, bufsize);
-    //sd_card_read_sector(lba, buffer_pos, byte_to_read);
+#if CONFIG_TYPE == 1 || CONFIG_TYPE == 2
     flash_read_sector(lba, buffer_pos, byte_to_read);
+#elif CONFIG_TYPE == 3
+    sd_card_read_sector(lba, buffer_pos, byte_to_read);
+#endif
     buffer_pos += XMU_SECTOR_SIZE;
     bufsize -= byte_to_read;
     bytes_read += byte_to_read;
@@ -225,8 +226,11 @@ int32_t tud_msc_write10_cb(uint8_t lun, uint32_t lba, uint32_t offset, uint8_t* 
   while (bufsize > 0)
   {
     uint32_t byte_to_write = MIN(XMU_SECTOR_SIZE, bufsize);
-    //sd_card_write_sector(lba, buffer_pos, byte_to_write);
+#if CONFIG_TYPE == 1 || CONFIG_TYPE == 2
     flash_write_sector(lba, buffer_pos, byte_to_write);
+#elif CONFIG_TYPE == 3
+    sd_card_write_sector(lba, buffer_pos, byte_to_write);
+#endif
     buffer_pos += XMU_SECTOR_SIZE;
     bufsize -= byte_to_write;
     bytes_writen += byte_to_write;
